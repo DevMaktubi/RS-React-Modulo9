@@ -58,8 +58,6 @@ describe("Posts page", () => {
 
     const response = await getStaticProps({ previewData: undefined });
 
-    console.log(response);
-
     expect(response).toEqual(
       expect.objectContaining({
         props: {
