@@ -9,5 +9,11 @@ module.exports = {
   testEnvironment: "jsdom",
   moduleNameMapper: {
     '\\.(css|less|scss|sass)$': 'identity-obj-proxy',
-  }
+  },
+  collectCoverage: true,
+  collectCoverageFrom: [
+    'src/**/*.{tsx}',
+    '!src/**/*.test.{tsx}',
+  ],
+  coverageReporters: ["lcov","json"]
 };
