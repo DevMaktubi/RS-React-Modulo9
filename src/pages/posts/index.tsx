@@ -22,7 +22,6 @@ export default function Posts({ data }: PostsProps) {
   const [posts, setPosts] = useState<Post[]>([]);
 
   useEffect(() => {
-    console.log(data);
     setPosts(data);
   }, [data]);
   return (
@@ -52,8 +51,6 @@ export default function Posts({ data }: PostsProps) {
 export const getStaticProps: GetStaticProps = async () => {
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const result = await client.getAllByType("post");
-
-  console.log(result[0].data.title);
 
   const posts = result.map((post) => {
     return {
