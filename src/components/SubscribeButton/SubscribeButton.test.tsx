@@ -8,7 +8,7 @@ jest.mock("next-auth/react");
 
 jest.mock("next/router");
 
-describe("SignInButton", () => {
+describe("SubscribeButton", () => {
   it("renders correctly when user is not authenticated", () => {
     const useSessionMocked = mocked(useSession);
     useSessionMocked.mockReturnValueOnce({

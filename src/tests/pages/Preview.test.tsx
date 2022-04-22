@@ -2,6 +2,7 @@ import { render, screen } from "@testing-library/react";
 import { mocked } from "jest-mock";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
+
 import Preview, { getStaticProps } from "../../pages/posts/preview/[slug]";
 
 import { client } from "../../prismic";
@@ -28,7 +29,7 @@ jest.mock("next-auth/react", () => {
 });
 jest.mock("next/router");
 
-describe("Post page", () => {
+describe("Preview", () => {
   it("renders correctly", () => {
     const mockedUseSession = mocked(useSession);
     const mockedRouter = mocked(useRouter);
