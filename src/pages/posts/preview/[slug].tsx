@@ -1,13 +1,13 @@
-import {GetStaticPaths, GetStaticProps } from "next"
-import { useSession } from "next-auth/react"
-import Head from "next/head"
-import Link from "next/link"
-import { useRouter } from "next/router"
-import { RichText } from "prismic-dom"
-import { useEffect } from "react"
-import { client } from "../../../prismic"
+import { GetStaticPaths, GetStaticProps } from "next";
+import { useSession } from "next-auth/react";
+import Head from "next/head";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import { RichText } from "prismic-dom";
+import { useEffect } from "react";
+import { client } from "../../../prismic";
 
-import styles from '../post.module.scss'
+import styles from "../post.module.scss";
 
 interface PostPreviewProps {
   post: {
@@ -15,19 +15,19 @@ interface PostPreviewProps {
     title: string;
     content: string;
     updatedAt: string;
-  }
+  };
 }
 
+export default function PostPreview({ post }: PostPreviewProps) {
+  const { data: session } = useSession();
 
-export default function PostPreview({post}: PostPreviewProps) {
-  const {data: session} = useSession();
   const router = useRouter();
 
   useEffect(() => {
-    if(session?.activeSubscription) {
+    if (session?.activeSubscription) {
       router.push(`/posts/${post.slug}`);
     }
-  }, [session, router, post])
+  }, [session, router, post]);
   return (
     <>
       <Head>
@@ -37,8 +37,10 @@ export default function PostPreview({post}: PostPreviewProps) {
         <article className={styles.post}>
           <h1>{post.title}</h1>
           <time>{post.updatedAt}</time>
-          <div className={`${styles.postContent} ${styles.previewContent}`} dangerouslySetInnerHTML={{__html: post.content}}>
-          </div>
+          <div
+            className={`${styles.postContent} ${styles.previewContent}`}
+            dangerouslySetInnerHTML={{ __html: post.content }}
+          ></div>
           <div className={styles.continueReading}>
             Wanna continue reading?
             <Link href="/">
@@ -48,39 +50,42 @@ export default function PostPreview({post}: PostPreviewProps) {
         </article>
       </main>
     </>
-  )
+  );
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
   return {
     paths: [
       {
-        params: {slug: 'keeping-your-.env.example-file-updated'}
-      }
+        params: { slug: "keeping-your-.env.example-file-updated" },
+      },
     ],
-    fallback: 'blocking',
-  }
-}
+    fallback: "blocking",
+  };
+};
 
-export const getStaticProps: GetStaticProps = async ({params}) => {
-  const {slug} = params;
+export const getStaticProps: GetStaticProps = async ({ params }) => {
+  const { slug } = params;
 
-  const response = await client.getByUID('post', String(slug), {});
+  const response = await client.getByUID("post", String(slug), {});
 
   const post = {
     slug,
     title: RichText.asText(response.data.title),
-    content: RichText.asHtml(response.data.content.splice(0,3)),
-    updatedAt: new Date(response.last_publication_date).toLocaleDateString('pt-BR', {
-      day: '2-digit',
-      month: 'long',
-      year: 'numeric',
-    }),
-  }
+    content: RichText.asHtml(response.data.content.splice(0, 3)),
+    updatedAt: new Date(response.last_publication_date).toLocaleDateString(
+      "pt-BR",
+      {
+        day: "2-digit",
+        month: "long",
+        year: "numeric",
+      }
+    ),
+  };
 
   return {
     props: {
       post,
-    }
-  }
-}
+    },
+  };
+};
